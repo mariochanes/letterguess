@@ -1,0 +1,38 @@
+let words = ["cat", "dog", "bat", "hat", "pig", "rat"];
+let currentWord, displayedWord, missingLetter;
+let isGameOver = false;
+
+function setup() {
+  createCanvas(width, height);
+  textSize(56);
+  textAlign(CENTER, CENTER);
+  textStyle(BOLD);
+  pickNewWord();
+}
+
+function draw() {
+  background(200, 230, 250);
+
+  if (!isGameOver) {
+    text(`${displayedWord}`, width, height);
+
+    if (keyIsPressed) {
+      if (key === missingLetter) {
+        text('Correct!', width, height);
+        isGameOver = true;
+        setTimeout(() => {
+          isGameOver = false;
+          pickNewWord();
+        }, 3000);
+      } else {
+        text('Try again!', width, height);
+      }
+    }
+  }
+}
+
+function pickNewWord() {
+  currentWord = random(words);
+  missingLetter = random(currentWord);
+  displayedWord = currentWord.replace(missingLetter, '_');
+}
