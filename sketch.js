@@ -4,6 +4,7 @@ let isGameOver = false;
 let buttons = [];
 let alphabet = "abcdefghijklmnopqrstuvwxyz";
 let showCorrectMessage = false;
+let unsplashAccessKey = 'Z-qhyRPej0sFAlkyvPFtJDIgWxpkBoZZi1-j41Dkxmo';
 
 function setup() {
   createCanvas(800, 400);
@@ -17,8 +18,10 @@ function setup() {
 
 function draw() {
   background(200, 230, 250);
-  text(`Find the missing letter:\n ${displayedWord}`, width / 2, height / 4);
-
+  text(`Finddd the missing letter:\n ${displayedWord}`, width / 2, height / 4);
+  if (img) {
+    image(img, 0, 0, width, height);
+  }
   if (showCorrectMessage) {
     text('Correct!', width / 2, height / 2);
   }
@@ -29,6 +32,7 @@ function pickNewWord() {
   let missingLetterIndex = floor(random(currentWord.length));
   missingLetter = currentWord.charAt(missingLetterIndex);
   displayedWord = currentWord.substring(0, missingLetterIndex) + '_' + currentWord.substring(missingLetterIndex + 1);
+  loadImageFromUnsplash(currentWord);
 }
 
 function createButtons() {
@@ -53,5 +57,18 @@ function handleGuess(guess) {
     setTimeout(() => {
       pickNewWord();
     }, 4000);
+  }
+}
+
+async function loadImageFromUnsplash(searchTerm) {
+  let url = `https://api.unsplash.com/photos/random?content_filter=high&client_id=${unsplashAccessKey}&query=${searchTerm}`;
+  try {
+    let response = await fetch(url);
+    let data = await response.json();
+    img = loadImage(data.urls.small, () => {
+      img.resize(width, height);
+    });
+  } catch (error) {
+    console.error('Error loading image:', error);
   }
 }
