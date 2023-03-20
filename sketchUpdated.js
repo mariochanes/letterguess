@@ -5,8 +5,8 @@ let buttons = [];
 let alphabet = "abcdefghijklmnopqrstuvwxyz";
 let showCorrectMessage = false;
 let showINCorrectMessage = false;
-let unsplashAccessKey = 'Dj9TMJ78IqUE2qWHU0NTw96-M0y_gR9NU--_fF8EpuA';
-
+//let unsplashAccessKey = 'Dj9TMJ78IqUE2qWHU0NTw96-M0y_gR9NU--_fF8EpuA';
+let unsplashAccessKey = 'Z-qhyRPej0sFAlkyvPFtJDIgWxpkBoZZi1-j41Dkxmo';
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textSize(48);
@@ -25,13 +25,13 @@ function draw() {
 
   if (img) {
     image(img, 0, 0, width, height-50);
-
   }
 
   if (!isGameOver) {
+    stroke(255);
+    strokeWeight(4);
     fill(0);
-    text(`Find the missing letter: ${displayedWord}`, width / 2, height - 25);
-
+    text(`Find the missing letter: ${displayedWord}`, width / 2, height - 100);
     if (keyIsPressed) {
       if (key === missingLetter) {
         fill(0, 255, 0);
@@ -41,9 +41,6 @@ function draw() {
           isGameOver = false;
           pickNewWord();
         }, 1500);
-      } else {
-        fill(255, 0, 0);
-
       }
     }
   }
@@ -65,30 +62,26 @@ function pickNewWord() {
 }
 
 function createButtons() {
-    let buttonSize = 40;
-    let buttonSpacing = 45;
-    let buttonsPerRow = floor((width - 20) / buttonSpacing);
+    let buttonSize = 65;
   
     for (let i = 0; i < alphabet.length; i++) {
       let button = createButton(alphabet[i].toUpperCase());
       button.size(buttonSize, buttonSize);
-  
-      let xPos = 20 + (i % buttonsPerRow) * buttonSpacing;
-      let yPos = height - 150 + floor(i / buttonsPerRow) * buttonSpacing;
-      button.position(xPos, yPos);
-  
+
+      positionButtons()
       button.mousePressed(() => handleGuess(alphabet[i]));
       buttons.push(button);
+
     }
   }
   
   function positionButtons() {
-    let buttonSpacing = 45;
+    let buttonSpacing = 80;
     let buttonsPerRow = floor((width - 20) / buttonSpacing);
   
     for (let i = 0; i < buttons.length; i++) {
-      let xPos = 20 + (i % buttonsPerRow) * buttonSpacing;
-      let yPos = height - 150 + floor(i / buttonsPerRow) * buttonSpacing;
+      let xPos = 45 + (i % buttonsPerRow) * buttonSpacing;
+      let yPos = height / 2  + floor(i / buttonsPerRow) * buttonSpacing;
       buttons[i].position(xPos, yPos);
     }
   }
